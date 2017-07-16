@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>相册</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.css">
+		<style>
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			.shade {
+				position: absolute;
+				display: none;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.55);
+			}
+			
+			.shade div {
+				width: 300px;
+				height: 200px;
+				line-height: 200px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-top: -100px;
+				margin-left: -150px;
+				background: white;
+				border-radius: 5px;
+				text-align: center;
+			}
+			
+			.a-upload {
+				padding: 4px 10px;
+				height: 27px;
+				line-height: 20px;
+				position: relative;
+				cursor: pointer;
+				color: #888;
+				background: #fafafa;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				overflow: hidden;
+				display: inline-block;
+				*display: inline;
+				*zoom: 1
+			}
+			
+			.a-upload input {
+				position: absolute;
+				font-size: 100px;
+				right: 0;
+				top: 0;
+				opacity: 0;
+				filter: alpha(opacity=0);
+				cursor: pointer
+			}
+			
+			.a-upload:hover {
+				color: #444;
+				background: #eee;
+				border-color: #ccc;
+				text-decoration: none
+			}
+			/*.img_div{min-height: 100px; min-width: 100px;}*/
+			.isImg{width: 100%; height: 100%; position: relative; float: left;}
+			.removeBtn{position: absolute; top: 0; right: 0; z-index: 11; border: 0px; border-radius: 50px; background: red; width: 22px; height: 22px; color: white;display:none;}
+			.shadeImg{position: absolute;
+				display: none;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 15;
+				text-align: center;
+				background: rgba(0, 0, 0, 0.55);}
+			.showImg{width: 100%; height: 100%; margin-top: 38%;}	
+	
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p>那一年我们毕业啦，举起了手中的红色小本本。</p>
+				<p>
+					<img src="aboutImg/1.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>曾经的488，现在的488，永远的488！</p>
+				<p>
+					<img src="aboutImg/2.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>这是我们班的帅哥们. </p>
+				<p>
+					<img src="aboutImg/3.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>还有这些倾国倾城的美女们。 </p>
+				<p>
+					<img src="aboutImg/4.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>最忘不了的是这张永远的记忆，永远的"孟老师" ！</p>
+				<p>
+					<img src="aboutImg/5.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>哇，好多萌妹子！ </p>
+				<p>
+					<img src="aboutImg/6.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>比比谁的嘴张的大 。</p>
+				<p>
+					<img src="aboutImg/7.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>班主任后面是什么鬼？ </p>
+				<p>
+					<img src="aboutImg/8.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>哼，我要买个萌萌萌萌！ </p>
+				<p>
+					<img src="aboutImg/9.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>再来一波美美的照片。 </p>
+				<p>
+					<img src="aboutImg/10.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>哇，不知道说什么啦。 </p>
+				<p>
+					<img src="aboutImg/11.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>三年的兄弟，永远的兄弟！ </p>
+				<p>
+					<img src="aboutImg/8.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>来跟着我读，"we"！ </p>
+				<p>
+					<img src="aboutImg/12.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>"love"！ </p>
+				<p>
+					<img src="aboutImg/13.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<div class="img_div">
+		</div>
+		<a href="javascript:;" class="a-upload">
+			<input type="file" name="myFile" id="myFile" multiple="multiple" />上传文件
+		</a>
+		<div class="shade" onclick="javascript:closeShade()">
+			<div class="">
+				<span class="text_span">
+					
+				</span>
+			</div>
+		</div>
+		
+		<div class="shadeImg" onclick="javascript:closeShadeImg()">
+			<div class="">
+				<img class="showImg" src=""/>
+			</div>
+		</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-2.1.1.js"></script>
+	<script src="js/mui.js"></script>
+	<script src="js/mui.zoom.js"></script>
+	<script src="js/mui.previewimage.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui.previewImage();
+	</script>
+	<script type="text/javascript">
+			$(function() {
+				var objUrl;
+				var img_html;
+				$("#myFile").change(function() {
+					var img_div = $(".img_div");
+					var filepath = $("input[name='myFile']").val();
+					for(var i = 0; i < this.files.length; i++) {
+						objUrl = getObjectURL(this.files[i]);
+						var extStart = filepath.lastIndexOf(".");
+						var ext = filepath.substring(extStart, filepath.length).toUpperCase();
+						/*
+						 作者：z@qq.com
+			        	时间：2016-12-10
+			        	描述：鉴定每个图片上传尾椎限制
+				 		* */
+						if(ext != ".BMP" && ext != ".PNG" && ext != ".GIF" && ext != ".JPG" && ext != ".JPEG") {
+							$(".shade").fadeIn(500);
+							$(".text_span").text("图片限于bmp,png,gif,jpeg,jpg格式");
+							this.value = "";
+							$(".img_div").html("");
+							return false;
+						} else {
+							/*
+							 若规则全部通过则在此提交url到后台数据库
+							 * */
+							img_html = "<div class='isImg'><img src='" + objUrl + "' onclick='javascript:lookBigImg(this)' style='height: 100%; width: 100%;' /><button class='removeBtn' onclick='javascript:removeImg(this)'>x</button></div>";
+							img_div.append(img_html);
+						}
+					}
+					
+					var file_size = 0;
+					var all_size = 0;
+					for(j = 0; j < this.files.length; j++) {
+						file_size = this.files[j].size;
+						all_size = all_size + this.files[j].size;
+						var size = all_size / 1024;
+						if(size > 500) {
+							$(".shade").fadeIn(500);
+							$(".text_span").text("上传的图片大小不能超过100k！");
+							this.value = "";
+							$(".img_div").html("");
+							return false;
+						}
+					}
+				
+					//					var img = new Image();
+					//					img.src = objUrl;
+					//					img.onload = function() {
+					//						if (img.width > 100 && img.height > 100) {
+					//							alert("图片宽高不能大于一百");
+					//							$("#myFile").val("");
+					//							$(".img_div").html("");
+					//							return false;
+					//						}
+					//					}
+					return true;
+				});
+				
+				function getObjectURL(file) {
+					var url = null;
+					if(window.createObjectURL != undefined) { // basic
+						url = window.createObjectURL(file);
+					} else if(window.URL != undefined) { // mozilla(firefox)
+						url = window.URL.createObjectURL(file);
+					} else if(window.webkitURL != undefined) { // webkit or chrome
+						url = window.webkitURL.createObjectURL(file);
+					}
+					//console.log(url);
+					return url;
+				}
+			});
+			
+			function removeImg(r){
+				$(r).parent().remove();
+			}
+			
+			function lookBigImg(b){
+				$(".shadeImg").fadeIn(500);
+				$(".showImg").attr("src",$(b).attr("src"))
+			}
+			
+			function closeShade(){
+				$(".shade").fadeOut(500);
+			}
+			
+			function closeShadeImg(){
+				$(".shadeImg").fadeOut(500);
+			}
+		</script>
+</html>

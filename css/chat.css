@@ -1,0 +1,26 @@
+#datatable{
+	width:95%;
+	margin:5px auto;
+	text-align: center;
+	border:1px solid #ccc;
+	font-size: 12px;;
+}
+#datatable tr td{
+    padding:8px 0;	
+}
+#datatable tr th{
+    padding:8px 0;	
+}
+#datatable tr td:nth-child(1){
+    width:15%;	
+}
+#datatable tr td:nth-child(2){
+    width:40%;	
+}
+#top{
+	margin:15px;
+}
+#top tr td:nth-child(1){
+	vertical-align: top;
+	padding-top: 10px;
+}

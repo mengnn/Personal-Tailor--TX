@@ -1,0 +1,144 @@
+{
+  "index.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "about.html",
+      "js/mui.js",
+      "css/mui.css",
+      "bootstrap-3.3.6-dist/js/jquery-1.11.3.js",
+      "bootstrap-3.3.6-dist/css/bootstrap.css",
+      "images/login-anniu.png",
+      "bootstrap-3.3.6-dist/js/bootstrap.js",
+      "images/login-logo.png",
+      "main.html",
+      "login/images/logo_user.png",
+      "images/school.jpg",
+      "login/css/weui.css",
+      "login/js/common.js",
+      "login/css/jquery-weui.min.css",
+      "login/js/jquery-weui.min.js",
+      "login/css/public.css",
+      "login/js/jq.min.js",
+      "login/images/locked.png"
+    ],
+    "refer": [
+      "contact.html",
+      "setting.html",
+      "about.html",
+      "chat.html",
+      "main.html"
+    ]
+  },
+  "contact.html": {
+    "resources": [
+      "js/mui.js",
+      "css/mui.css",
+      "css/mui.indexedlist.css",
+      "js/mui.indexedlist.js",
+      "fonts/mui.ttf",
+      "js/angular.js",
+      "js/contact.js",
+      "imgs/bb.jpg",
+      "imgs/2.jpg",
+      "imgs/9.jpg",
+      "imgs/10.jpg",
+      "imgs/24.jpg",
+      "imgs/14.jpg",
+      "imgs/22.jpg",
+      "imgs/31.jpg",
+      "imgs/34.jpg",
+      "imgs/29.jpg",
+      "imgs/21.png",
+      "imgs/30.jpg",
+      "imgs/17.jpg",
+      "imgs/12.jpg",
+      "imgs/18.png",
+      "imgs/7.jpg",
+      "imgs/39.jpg",
+      "imgs/8.jpg",
+      "imgs/35.jpg",
+      "imgs/3.jpg",
+      "imgs/13.png",
+      "imgs/25.jpg",
+      "imgs/23.jpg",
+      "imgs/15.jpg",
+      "imgs/4.jpg",
+      "imgs/27.jpg",
+      "imgs/41.jpg",
+      "imgs/16.jpg",
+      "imgs/40.jpg",
+      "imgs/6.jpg",
+      "imgs/1.jpg",
+      "imgs/26.jpg",
+      "imgs/38.png",
+      "imgs/37.jpg",
+      "imgs/33.png",
+      "imgs/32.jpg",
+      "imgs/28.jpg",
+      "imgs/36.jpg",
+      "imgs/11.jpg",
+      "imgs/5.jpg",
+      "imgs/19.jpg",
+      "imgs/20.jpg",
+      "imgs/43.jpg",
+      "imgs/44.jpg",
+      "imgs/42.jpg"
+    ]
+  },
+  "about.html": {
+    "resources": [
+      "js/mui.js",
+      "css/mui.css",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "images/muwu.jpg",
+      "images/yuantiao.jpg",
+      "images/shuijiao.jpg",
+      "aboutImg/7.jpg",
+      "aboutImg/13.jpg",
+      "aboutImg/3.jpg",
+      "aboutImg/6.jpg",
+      "aboutImg/2.jpg",
+      "aboutImg/12.jpg",
+      "aboutImg/1.jpg",
+      "aboutImg/11.jpg",
+      "aboutImg/8.jpg",
+      "aboutImg/4.jpg",
+      "aboutImg/5.jpg",
+      "aboutImg/10.jpg",
+      "aboutImg/9.jpg"
+    ]
+  },
+  "setting.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/mui.js",
+      "css/mui.css",
+      "js/jquery-2.1.1.js"
+    ]
+  },
+  "main.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "about.html",
+      "index.html",
+      "css/mui.css",
+      "js/mui.js"
+    ],
+    "refer": [
+      "contact.html",
+      "setting.html",
+      "about.html",
+      "chat.html",
+      "index.html"
+    ]
+  },
+  "chat.html": {
+    "resources": [
+      "css/mui.css",
+      "js/sql.js",
+      "css/chat.css",
+      "js/mui.js"
+    ]
+  }
+}
